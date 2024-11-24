@@ -1,0 +1,10 @@
+{ 
+    // nombre de su producto / solución
+    "project_name": "Colega",
+    // descripción de una frase y directa al grano de la solución
+    "oneliner": "Pavimentamos el proceso de regularizar el comercio informal.",
+    // url al logo de proyecto. mínimo 200x200, png. puede estar hosteado en el mismo repo.
+    "logo_url": "https://github.com/platanus-hack/team-6/src/assets/colega.png",
+    // url para acceder a su app. si es apk u otro, link de descarga directa.
+    "app_url": "https://ephemeral-beijinho-4f168c.netlify.app"
+}

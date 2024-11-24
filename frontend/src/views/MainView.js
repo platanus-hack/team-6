@@ -84,6 +84,7 @@ const MainView = () => {
     }
   };
 
+
   return (
     <Container
       maxWidth="xl"

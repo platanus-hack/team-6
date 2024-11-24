@@ -11,7 +11,7 @@ class SantanderScraper:
         data = {
             "scope": "Completa",
             "username": f"00{banking_credentials.rut}",
-            "password": banking_credentials.password,
+            "password": banking_credentials.decrypted_password,
             "client_id": "4e9af62c-6563-42cd-aab6-0dd7d50a9131",
         }
         encoded_data = urlencode(data)  # Properly encode the data
@@ -164,6 +164,7 @@ class SantanderScraper:
                 bank_account=bank_account,
             )
             for mov in json_response["movements"]
+            if "FINGO" not in mov.get("observacion", "")
         ]
 
     @classmethod
@@ -191,9 +192,7 @@ class SantanderClient:
             response = SantanderScraper.fetch_bank_movements(
                 access_token, account_number
             )
-            print("response 1")
             to_create += SantanderScraper.parse_movements(
                 response, account_number, user, full_name
             )
-            print("response 2")
         BankMovement.objects.bulk_create(to_create, ignore_conflicts=True)

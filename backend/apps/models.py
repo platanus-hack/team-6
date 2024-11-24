@@ -1,5 +1,9 @@
 from django.db import models
 from django.contrib.auth import get_user_model
+import os
+from cryptography.fernet import Fernet
+
+key_str = os.getenv("ENCRYPTION_KEY")
 
 
 class BaseModel(models.Model):
@@ -38,8 +42,14 @@ class UserDetail(BaseModel):
 class BankingCredentials(BaseModel):
     user = models.ForeignKey(get_user_model(), on_delete=models.PROTECT)
     rut = models.CharField(max_length=20)
-    password = models.CharField(null=True, blank=True, max_length=30)
+    password = models.CharField(null=True, blank=True, max_length=300)
     bank = models.CharField(null=True, blank=True, max_length=30)
+
+    @property
+    def decrypted_password(self):
+        f = Fernet(key_str.encode())
+        str_bytes = self.password.encode()
+        return f.decrypt(str_bytes).decode()
 
 
 class BankAccount(BaseModel):
